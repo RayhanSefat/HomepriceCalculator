@@ -51,3 +51,15 @@ print(df4.isnull().sum())
 
 df4 = df4.dropna()
 print(df4.isnull().sum())
+
+df5 = df4.copy()
+df5['price_per_sqft'] = (df5['price'] * 100000) / df5['total_sqft']
+print(df5.head())
+
+df5.location = df5.location.apply(lambda x: x.strip())
+print(df5.head())
+location_stats = df5['location'].value_counts(ascending=False)
+print(location_stats)
+location_stats_less_than_10 = location_stats[location_stats<=10]
+df5.location = df5.location.apply(lambda x: 'other' if x in location_stats_less_than_10 else x)
+print(len(df5.location.unique()))
